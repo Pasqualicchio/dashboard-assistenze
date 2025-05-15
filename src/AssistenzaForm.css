@@ -2,18 +2,20 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #eef1f5;
+  background-color: #f1f3f6;
 }
 
+/* Container principale del modulo */
 .form-container {
   max-width: 960px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
+/* Titolo */
 .form-title {
   text-align: center;
   font-size: 28px;
@@ -21,12 +23,13 @@ body {
   margin-bottom: 30px;
 }
 
+/* Layout dei campi */
 .form {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 20px;
 }
 
+/* Campi base */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -38,6 +41,12 @@ body {
   color: #34495e;
 }
 
+.required::after {
+  content: " *";
+  color: red;
+}
+
+/* Input, Select e Textarea */
 .form-input,
 .form-select,
 .form-textarea {
@@ -45,6 +54,8 @@ body {
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-input:focus,
@@ -54,18 +65,14 @@ body {
   outline: none;
 }
 
-.required::after {
-  content: " *";
-  color: red;
-}
-
+/* Pulsante principale */
 .form-button {
   background-color: #4caf50;
   color: white;
-  border: none;
   padding: 14px;
-  font-size: 16px;
+  border: none;
   border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
 }
@@ -74,21 +81,22 @@ body {
   background-color: #388e3c;
 }
 
+/* Contenitori per esportazione e logout */
 .export-container,
 .logout-container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
   margin-top: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .export-button,
 .logout-button {
   padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
   font-size: 15px;
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
 }
 
@@ -97,20 +105,20 @@ body {
   color: white;
 }
 
+.export-button:hover {
+  background-color: #0056b3;
+}
+
 .logout-button {
   background-color: #dc3545;
   color: white;
-}
-
-.export-button:hover {
-  background-color: #0056b3;
 }
 
 .logout-button:hover {
   background-color: #c82333;
 }
 
-/* Responsive grid */
+/* Responsive layout */
 @media (min-width: 768px) {
   .form {
     grid-template-columns: 1fr 1fr;
@@ -122,3 +130,10 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: -10px;
+  display: block;
+}
+
