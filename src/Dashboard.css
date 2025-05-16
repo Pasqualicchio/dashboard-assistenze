@@ -1,0 +1,205 @@
+.dashboard-container {
+  padding: 2rem;
+  background-color: #f7f7f7;
+  font-family: sans-serif;
+}
+
+.dashboard-header {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.dashboard-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.dashboard-table input {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.pagination {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 10px;
+}
+/* Dashboard.css */
+
+.button {
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 15px;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Specifici */
+.button-export {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-export:hover {
+  background-color: #0056b3;
+}
+
+.button-form {
+  background-color: #28a745;
+  color: white;
+}
+
+.button-form:hover {
+  background-color: #1e7e34;
+}
+
+.button-logout {
+  background-color: #dc3545;
+  color: white;
+}
+
+.button-logout:hover {
+  background-color: #a71d2a;
+}
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9fbff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-table th {
+  background-color: #007BFF; /* Blu professionale */
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #0056b3;
+}
+
+.dashboard-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.dashboard-table tr:nth-child(even) {
+  background-color: #eef4ff;
+}
+
+.dashboard-table input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dashboard-table input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.dashboard-table th input {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Hover */
+.dashboard-table tbody tr:hover {
+  background-color: #dceeff;
+}
+
+/* Bottoni */
+.button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-save {
+  background-color: #aeadb6;
+  color: white;
+}
+
+.button-save:hover {
+  background-color: #09abeb;
+}
+
+.button-export {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-export:hover {
+  background-color: #0056b3;
+}
+
+.button-form {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.button-form:hover {
+  background-color: #138496;
+}
+
+.button-logout {
+  background-color: #dc3545;
+  color: white;
+}
+
+.button-logout:hover {
+  background-color: #c82333;
+}
+
+/* Paginazione */
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

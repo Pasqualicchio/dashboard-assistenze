@@ -42,8 +42,8 @@ body {
 }
 
 .required::after {
-  content: " *";
-  color: red;
+  content: " * Obbligatorio";
+  color: rgb(255, 0, 140);
 }
 
 /* Input, Select e Textarea */
@@ -136,4 +136,43 @@ body {
   margin-top: -10px;
   display: block;
 }
+.dashboard-button {
+  background-color: #f56608;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.duration-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.check-icon {
+  font-size: 1.4rem;
+  color: green;
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.dashboard-button:hover {
+  background-color: #d35400;
+}
+.form-group {
+  margin-bottom: 10px;
+}
+
 

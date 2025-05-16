@@ -23,16 +23,18 @@ function Login() {
 
       const contentType = res.headers.get('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Risposta non valida dal server (non è JSON)');
+        const text = await res.text(); // Legge il contenuto non JSON
+        throw new Error(`Risposta non valida dal server (non è JSON): ${text}`);
       }
 
       const data = await res.json();
+
       if (!res.ok) {
         throw new Error(data.error || 'Errore generico');
       }
 
       localStorage.setItem('token', data.token);
-      navigate('/form'); // ✅ VAI AL FORM
+      navigate('/form');
     } catch (err) {
       console.error('Errore login:', err);
       setError(err.message || 'Errore di rete');
