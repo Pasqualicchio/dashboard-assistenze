@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+const API_BASE = process.env.REACT_APP_API_BASE;
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,25 +15,22 @@ function Login() {
     setError('');
 
     try {
-      const res = await fetch('https://dashboard-assistenze-1.onrender.com/api/login', {
+      const res = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       const contentType = res.headers.get('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
-        const text = await res.text(); // Legge il contenuto non JSON
-        throw new Error(`Risposta non valida dal server (non è JSON): ${text}`);
+        const text = await res.text();
+        throw new Error(`Risposta non valida dal server: ${text}`);
       }
 
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Errore generico');
-      }
+      if (!res.ok) throw new Error(data.error || 'Errore login');
 
       localStorage.setItem('token', data.token);
       navigate('/form');
@@ -51,7 +50,7 @@ function Login() {
             placeholder="Email"
             className="form-input"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -61,7 +60,7 @@ function Login() {
             placeholder="Password"
             className="form-input"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>

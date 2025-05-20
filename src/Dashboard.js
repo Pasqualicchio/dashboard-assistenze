@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { v4 as uuidv4 } from 'uuid';
 
+const API_BASE = process.env.REACT_APP_API_BASE; // ✅ Usa la variabile d’ambiente
+
 function Dashboard() {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
@@ -15,7 +17,6 @@ function Dashboard() {
   const rowsPerPage = 10;
   const columns = ['clientName', 'orderNumber', 'technician', 'requestDate', 'duration', 'topic', 'description'];
 
-  // ✅ Autenticazione
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) return navigate('/login');
@@ -28,14 +29,13 @@ function Dashboard() {
     }
   }, [navigate]);
 
-  // ✅ Caricamento records
   useEffect(() => {
-    fetch('http://localhost:3001/api/records')
+    fetch(`${API_BASE}/api/records`)
       .then(res => res.json())
       .then(data => {
         const normalized = data.map(r => ({
           ...r,
-          _id: r._id || uuidv4(), // assegna ID se mancante
+          _id: r._id || uuidv4(),
           clientName: r.clientName || '',
           orderNumber: r.orderNumber || '',
           technician: r.technician || '',
@@ -60,7 +60,7 @@ function Dashboard() {
     const token = localStorage.getItem('token');
     const recordToUpdate = records.find(r => r._id === id);
     try {
-      const res = await fetch(`http://localhost:3001/api/records/${id}`, {
+      const res = await fetch(`${API_BASE}/api/records/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function Dashboard() {
   const handleExport = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://localhost:3001/api/export', {
+      const res = await fetch(`${API_BASE}/api/export`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const blob = await res.blob();
