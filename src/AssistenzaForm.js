@@ -24,22 +24,26 @@ function AssistenzaForm() {
   const endTime = watch('endTime');
 
   // ⏱ Calcolo durata
-  useEffect(() => {
-    if (startTime && endTime) {
-      const [startH, startM] = startTime.split(':').map(Number);
-      const [endH, endM] = endTime.split(':').map(Number);
-      const start = startH * 60 + startM;
-      const end = endH * 60 + endM;
+ useEffect(() => {
+  const startTime = watch('startTime');
+  const endTime = watch('endTime');
 
-      if (end <= start) {
-        setTimeError("⚠️ L'orario di fine deve essere successivo all'orario di inizio.");
-        setValue('duration', '');
-      } else {
-        setTimeError('');
-        setValue('duration', end - start);
-      }
+  if (startTime && endTime) {
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+    const start = startH * 60 + startM;
+    const end = endH * 60 + endM;
+
+    if (end <= start) {
+      setTimeError("⚠️ L'orario di fine deve essere successivo all'orario di inizio.");
+      setValue('duration', '');
+    } else {
+      setTimeError('');
+      setValue('duration', end - start); // calcola i minuti
     }
-  }, [startTime, endTime, setValue]);
+  }
+}, [watch('startTime'), watch('endTime'), setValue]);
+
 
   // ✅ Invio form
   const onSubmit = async (data) => {
@@ -164,10 +168,26 @@ function AssistenzaForm() {
       </div>
 
       <div className="form-group">
-        <label>🕔 Ora Fine</label>
-        <input type="time" {...register('endTime')} className="form-input" required />
-        {timeError && <p className="error">{timeError}</p>}
-      </div>
+  <label>🕔 Ora Fine</label>
+  <input
+    type="time"
+    {...register('endTime')}
+    className="form-input"
+    required
+  />
+  {timeError && <p className="error">{timeError}</p>}
+</div>
+
+<div className="form-group">
+  <label>⏱️ Durata (minuti)</label>
+  <input
+    type="number"
+    {...register('duration')}
+    className="form-input"
+    readOnly
+  />
+</div>
+
 
       <input type="hidden" {...register('duration')} />
 

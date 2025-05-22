@@ -20,9 +20,29 @@ const exportPath = path.join(__dirname, 'data', 'export.xlsx');
 app.use(cors());
 app.use(bodyParser.json());
 
-/* 📥 Salvataggio nuovo record */
+/* 📥 Salvataggio nuovo record con validazione orari */
 app.post('/api/submit', (req, res) => {
-  const newEntry = { ...req.body, _id: uuidv4() };
+  const { startTime, endTime } = req.body;
+
+  if (!startTime || !endTime) {
+    return res.status(400).json({ error: 'Orari mancanti' });
+  }
+
+  const [startH, startM] = startTime.split(':').map(Number);
+  const [endH, endM] = endTime.split(':').map(Number);
+  const start = startH * 60 + startM;
+  const end = endH * 60 + endM;
+
+  if (end <= start) {
+    return res.status(400).json({ error: "L'orario di fine deve essere successivo all'orario di inizio" });
+  }
+
+  const newEntry = {
+    ...req.body,
+    duration: end - start,
+    _id: uuidv4()
+  };
+
   let records = [];
 
   try {
@@ -52,10 +72,28 @@ app.get('/api/records', (req, res) => {
   }
 });
 
-/* 🔁 Modifica record */
+/* 🔁 Modifica record con validazione orari */
 app.put('/api/records/:id', (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
+
+  // Validazione orari
+  const { startTime, endTime } = updatedData;
+  if (startTime && endTime) {
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
+    const start = startH * 60 + startM;
+    const end = endH * 60 + endM;
+
+    if (end <= start) {
+      return res.status(400).json({
+        error: "L'orario di fine deve essere successivo all'orario di inizio"
+      });
+    }
+
+    // Se valido, aggiorna anche la durata
+    updatedData.duration = end - start;
+  }
 
   if (!fs.existsSync(dataFile)) {
     return res.status(404).json({ error: 'Nessun record trovato' });

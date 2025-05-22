@@ -15,16 +15,20 @@ function Dashboard() {
 
   const rowsPerPage = 10;
 
+  const technicians = [
+    'Alberto Castagna', 'Andrea Tedesco', 'Giuseppe Carenza', 'Giuseppe Fasano', 'Greg J Mathews',
+    'Gianluca Limanni', 'Gabriele Magni', 'Luca Mellino', 'Riccardo Debenedetti', 'Roberto Tettamanzi',
+    'Simone Filippini', 'Stefano Rivolta', 'Vittorio Vitacchione'
+  ];
+
+  const requestSources = ['Assistance', 'Email', 'Chiamata', 'Messaggio', 'Verbale'];
+  const requestedFromOptions = ['Cliente', 'Interno'];
+  const timeOptions = ['Ufficio', 'Fuori', 'We', 'Trasferta'];
+  const topics = ['Installazione', 'Meccanico', 'Elettrico', 'Automazione', 'Avviamento', 'Processo', 'Meeting', 'Altro'];
+
   const columns = [
-    'clientName',
-    'clientGroup',
-    'orderNumber',
-    'responsibleTechnician',
-    'technician',
-    'requestDate',
-    'duration',
-    'topic',
-    'description'
+    'responsibleTechnician', 'clientName', 'clientGroup', 'orderNumber', 'technician',
+    'requestDate', 'duration', 'requestSource', 'requestedFrom', 'timeType', 'topic', 'description'
   ];
 
   useEffect(() => {
@@ -46,13 +50,16 @@ function Dashboard() {
         const normalized = data.map(r => ({
           ...r,
           _id: r._id || uuidv4(),
+          responsibleTechnician: r.responsibleTechnician || '',
           clientName: r.clientName || '',
           clientGroup: r.clientGroup || '',
           orderNumber: r.orderNumber || '',
-          responsibleTechnician: r.responsibleTechnician || '',
           technician: r.technician || '',
           requestDate: r.requestDate || '',
           duration: r.duration || '',
+          requestSource: r.requestSource || '',
+          requestedFrom: r.requestedFrom || '',
+          timeType: r.timeType || '',
           topic: r.topic || '',
           description: r.description || '',
           modified: false
@@ -170,13 +177,16 @@ function Dashboard() {
         <tbody>
           {paginated.map((r) => (
             <tr key={r._id} style={r.modified ? { backgroundColor: '#fff7cc' } : {}}>
+              <td><input value={r.responsibleTechnician} onChange={e => handleChange(r._id, 'responsibleTechnician', e.target.value)} /></td>
               <td><input value={r.clientName} onChange={e => handleChange(r._id, 'clientName', e.target.value)} /></td>
               <td><input value={r.clientGroup} onChange={e => handleChange(r._id, 'clientGroup', e.target.value)} /></td>
               <td><input value={r.orderNumber} onChange={e => handleChange(r._id, 'orderNumber', e.target.value)} /></td>
-              <td><input value={r.responsibleTechnician} onChange={e => handleChange(r._id, 'responsibleTechnician', e.target.value)} /></td>
               <td><input value={r.technician} onChange={e => handleChange(r._id, 'technician', e.target.value)} /></td>
               <td><input type="date" value={r.requestDate} onChange={e => handleChange(r._id, 'requestDate', e.target.value)} /></td>
               <td><input type="number" value={r.duration} onChange={e => handleChange(r._id, 'duration', e.target.value)} /></td>
+              <td><input value={r.requestSource} onChange={e => handleChange(r._id, 'requestSource', e.target.value)} /></td>
+              <td><input value={r.requestedFrom} onChange={e => handleChange(r._id, 'requestedFrom', e.target.value)} /></td>
+              <td><input value={r.timeType} onChange={e => handleChange(r._id, 'timeType', e.target.value)} /></td>
               <td><input value={r.topic} onChange={e => handleChange(r._id, 'topic', e.target.value)} /></td>
               <td>
                 <textarea
