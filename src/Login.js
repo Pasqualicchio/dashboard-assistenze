@@ -1,8 +1,8 @@
+// ✅ LOGIN.JS
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-
-const API_BASE = process.env.REACT_APP_API_BASE;
+import { API_BASE } from './config'; // ✅ Import corretto da file centrale
 
 function Login() {
   const [email, setEmail] = useState('');

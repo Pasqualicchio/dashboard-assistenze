@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { v4 as uuidv4 } from 'uuid';
-
-const API_BASE = process.env.REACT_APP_API_BASE; // ✅ Usa la variabile d’ambiente
+import { API_BASE } from './config'; // ✅ Centralizzato
 
 function Dashboard() {
   const navigate = useNavigate();

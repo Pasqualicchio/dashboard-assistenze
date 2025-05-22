@@ -6,12 +6,13 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const xlsx = require('xlsx');
 const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid'); // genera _id univoco
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
 const SECRET_KEY = process.env.JWT_SECRET || 'supersegreta_jwt_2025';
 const PORT = process.env.PORT || 3001;
+
 const dataFile = path.join(__dirname, 'data', 'records.json');
 const usersFile = path.join(__dirname, 'data', 'users.json');
 const exportPath = path.join(__dirname, 'data', 'export.xlsx');
@@ -19,7 +20,7 @@ const exportPath = path.join(__dirname, 'data', 'export.xlsx');
 app.use(cors());
 app.use(bodyParser.json());
 
-/* 📥 Salvataggio nuovo record (con _id) */
+/* 📥 Salvataggio nuovo record */
 app.post('/api/submit', (req, res) => {
   const newEntry = { ...req.body, _id: uuidv4() };
   let records = [];
@@ -51,7 +52,7 @@ app.get('/api/records', (req, res) => {
   }
 });
 
-/* 🔁 Modifica record tramite _id */
+/* 🔁 Modifica record */
 app.put('/api/records/:id', (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
@@ -61,7 +62,7 @@ app.put('/api/records/:id', (req, res) => {
   }
 
   let records = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-  const index = records.findIndex(r => r._id === id); // Cerca per _id
+  const index = records.findIndex(r => r._id === id);
 
   if (index === -1) {
     return res.status(404).json({ error: 'Record non trovato' });
@@ -73,8 +74,7 @@ app.put('/api/records/:id', (req, res) => {
   res.json({ message: 'Record aggiornato con successo' });
 });
 
-
-/* 📤 Esportazione dati in Excel (solo admin) */
+/* 📤 Esportazione in Excel */
 app.get('/api/export', (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(403).json({ error: 'Token mancante' });
@@ -142,13 +142,12 @@ app.post('/api/login', async (req, res) => {
   res.json({ token });
 });
 
+/* 🌐 Root */
+app.get('/', (req, res) => {
+  res.send('🚀 Backend attivo!');
+});
+
 /* ▶️ Avvio server */
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Server in ascolto su http://localhost:${PORT}`);
-});
-app.get('/', (req, res) => {
-  res.send('API Assistenze attiva 🚀');
-});
-app.get('/', (req, res) => {
-  res.send('🚀 Backend attivo!');
 });

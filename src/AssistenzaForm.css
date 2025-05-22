@@ -29,10 +29,23 @@ body {
   gap: 20px;
 }
 
+@media (min-width: 768px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 /* Campi base */
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 }
 
 .form-group label {
@@ -46,7 +59,7 @@ body {
   color: rgb(255, 0, 140);
 }
 
-/* Input, Select e Textarea */
+/* Input, Select, Textarea */
 .form-input,
 .form-select,
 .form-textarea {
@@ -75,13 +88,14 @@ body {
   font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .form-button:hover {
   background-color: #388e3c;
 }
 
-/* Contenitori per esportazione e logout */
+/* Esportazione, Dashboard, Logout */
 .export-container,
 .logout-container {
   display: flex;
@@ -92,66 +106,58 @@ body {
 }
 
 .export-button,
-.logout-button {
+.logout-button,
+.dashboard-button {
   padding: 12px 20px;
   font-size: 15px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+/* Esporta */
 .export-button {
   background-color: #007bff;
   color: white;
 }
-
 .export-button:hover {
   background-color: #0056b3;
 }
 
+/* Logout */
 .logout-button {
   background-color: #dc3545;
   color: white;
 }
-
 .logout-button:hover {
   background-color: #c82333;
 }
 
-/* Responsive layout */
-@media (min-width: 768px) {
-  .form {
-    grid-template-columns: 1fr 1fr;
-  }
+/* Dashboard */
+.dashboard-button {
+  background-color: #f56608;
+  color: white;
+  font-weight: bold;
+}
+.dashboard-button:hover {
+  background-color: #d35400;
 }
 
-@media (min-width: 1024px) {
-  .form {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
+/* Messaggi di errore */
 .error {
   color: red;
   font-size: 13px;
   margin-top: -10px;
   display: block;
 }
-.dashboard-button {
-  background-color: #f56608;
-  color: white;
-  padding: 10px 20px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+
+/* Durata con icona check */
 .duration-wrapper {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
 .check-icon {
   font-size: 1.4rem;
   color: green;
@@ -168,11 +174,3 @@ body {
     transform: scale(1);
   }
 }
-.dashboard-button:hover {
-  background-color: #d35400;
-}
-.form-group {
-  margin-bottom: 10px;
-}
-
-

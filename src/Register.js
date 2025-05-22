@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE } from './config'; // ✅ Import base API URL
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -7,11 +8,11 @@ function RegisterPage() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3001/api/register', {
+      const res = await fetch(`${API_BASE}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -39,7 +40,7 @@ function RegisterPage() {
           placeholder="Email"
           required
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           style={{ padding: '10px', marginBottom: '10px', width: '100%' }}
         />
         <input
@@ -47,7 +48,7 @@ function RegisterPage() {
           placeholder="Password"
           required
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           style={{ padding: '10px', marginBottom: '10px', width: '100%' }}
         />
         <button type="submit" style={{ padding: '10px', width: '100%' }}>

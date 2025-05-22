@@ -9,12 +9,29 @@ function Home() {
     <div style={{ textAlign: 'center', marginTop: '100px' }}>
       <h2>👋 Benvenuto!</h2>
       <p>Accedi o registrati per continuare</p>
-      <button onClick={() => navigate('/login')} style={{ marginRight: '10px', padding: '10px 20px' }}>
-        🔐 Accedi
-      </button>
-      <button onClick={() => navigate('/register')} style={{ padding: '10px 20px' }}>
-        📝 Registrati
-      </button>
+      <div style={{ marginTop: '20px' }}>
+        <button
+          onClick={() => navigate('/login')}
+          style={{
+            marginRight: '10px',
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer'
+          }}
+        >
+          🔐 Accedi
+        </button>
+        <button
+          onClick={() => navigate('/register')}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            cursor: 'pointer'
+          }}
+        >
+          📝 Registrati
+        </button>
+      </div>
     </div>
   );
 }
