@@ -102,82 +102,121 @@ function AssistenzaForm() {
   if (loading) return null; // 🔒 Aspetta controllo token prima di mostrare il form
 
   return (
-    <div className="form-container">
-      <h2 className="form-title">📝 Monitoraggio Assistenza</h2>
+  <div className="form-container">
+    <h2 className="form-title">📝 Monitoraggio Assistenza</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <div className="form-group">
-          <label>👤 Tecnico</label>
-          <select {...register('technician')} className="form-input" required>
-            <option value="">-- Seleziona --</option>
-            {technicians.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-        </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <div className="form-group">
+        <label>👤 Tecnico</label>
+        <select {...register('technician')} className="form-input" required>
+          <option value="">-- Seleziona --</option>
+          {technicians.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+      </div>
 
-        <div className="form-group">
-          <label>📅 Data</label>
-          <input type="date" {...register('date')} className="form-input" required />
-        </div>
+      <div className="form-group">
+        <label>🏢 Nome Cliente</label>
+        <input
+          type="text"
+          {...register('clientName')}
+          className="form-input"
+          placeholder="Inserisci il nome del cliente"
+          required
+        />
+      </div>
 
-        <div className="form-group">
-          <label>🕒 Ora Inizio</label>
-          <input type="time" {...register('startTime')} className="form-input" required />
-        </div>
+      <div className="form-group">
+        <label>👥 Gruppo Cliente</label>
+        <input
+          type="text"
+          {...register('clientGroup')}
+          className="form-input"
+          placeholder="Inserisci il gruppo cliente"
+        />
+      </div>
 
-        <div className="form-group">
-          <label>🕔 Ora Fine</label>
-          <input type="time" {...register('endTime')} className="form-input" required />
-          {timeError && <p className="error">{timeError}</p>}
-        </div>
+      <div className="form-group">
+        <label>📦 Numero Commessa</label>
+        <input
+          type="text"
+          {...register('orderNumber')}
+          className="form-input"
+          placeholder="Inserisci il numero commessa"
+        />
+      </div>
 
-        <input type="hidden" {...register('duration')} />
+      <div className="form-group">
+        <label>👨‍💼 Tecnico Responsabile</label>
+        <select {...register('responsibleTechnician')} className="form-input">
+          <option value="">-- Seleziona --</option>
+          {technicians.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+      </div>
 
-        <div className="form-group">
-          <label>🔄 Fonte Richiesta</label>
-          <select {...register('requestSource')} className="form-input" required>
-            <option value="">-- Seleziona --</option>
-            {requestSources.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
-        </div>
+      <div className="form-group">
+        <label>📅 Data</label>
+        <input type="date" {...register('date')} className="form-input" required />
+      </div>
 
-        <div className="form-group">
-          <label>📨 Da chi è stata richiesta</label>
-          <select {...register('requestedFrom')} className="form-input" required>
-            <option value="">-- Seleziona --</option>
-            {requestedFromOptions.map(o => <option key={o} value={o}>{o}</option>)}
-          </select>
-        </div>
+      <div className="form-group">
+        <label>🕒 Ora Inizio</label>
+        <input type="time" {...register('startTime')} className="form-input" required />
+      </div>
 
-        <div className="form-group">
-          <label>📍 Tipo Tempo</label>
-          <select {...register('timeType')} className="form-input" required>
-            <option value="">-- Seleziona --</option>
-            {timeOptions.map(o => <option key={o} value={o}>{o}</option>)}
-          </select>
-        </div>
+      <div className="form-group">
+        <label>🕔 Ora Fine</label>
+        <input type="time" {...register('endTime')} className="form-input" required />
+        {timeError && <p className="error">{timeError}</p>}
+      </div>
 
-        <div className="form-group">
-          <label>📌 Argomento</label>
-          <select {...register('topic')} className="form-input" required>
-            <option value="">-- Seleziona --</option>
-            {topics.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-        </div>
+      <input type="hidden" {...register('duration')} />
 
-        <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-          <label>📝 Descrizione</label>
-          <textarea
-            {...register('description')}
-            className="form-input"
-            required
-            placeholder="Inserisci una descrizione dettagliata..."
-          />
-        </div>
+      <div className="form-group">
+        <label>🔄 Fonte Richiesta</label>
+        <select {...register('requestSource')} className="form-input" required>
+          <option value="">-- Seleziona --</option>
+          {requestSources.map(r => <option key={r} value={r}>{r}</option>)}
+        </select>
+      </div>
 
-        <button type="submit" className="form-button" style={{ gridColumn: '1 / -1' }}>
-          ✅ Invia
-        </button>
-      </form>
+      <div className="form-group">
+        <label>📨 Da chi è stata richiesta</label>
+        <select {...register('requestedFrom')} className="form-input" required>
+          <option value="">-- Seleziona --</option>
+          {requestedFromOptions.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>📍 Tipo Tempo</label>
+        <select {...register('timeType')} className="form-input" required>
+          <option value="">-- Seleziona --</option>
+          {timeOptions.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>📌 Argomento</label>
+        <select {...register('topic')} className="form-input" required>
+          <option value="">-- Seleziona --</option>
+          {topics.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+      </div>
+
+      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+        <label>📝 Descrizione</label>
+        <textarea
+          {...register('description')}
+          className="form-input"
+          required
+          placeholder="Inserisci una descrizione dettagliata..."
+        />
+      </div>
+
+      <button type="submit" className="form-button" style={{ gridColumn: '1 / -1' }}>
+        ✅ Invia
+      </button>
+    </form>
 
       {localStorage.getItem('token') && (
         <div className="logout-container">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { v4 as uuidv4 } from 'uuid';
-import { API_BASE } from './config'; // ✅ Centralizzato
+import { API_BASE } from './config';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -14,7 +14,18 @@ function Dashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const rowsPerPage = 10;
-  const columns = ['clientName', 'orderNumber', 'technician', 'requestDate', 'duration', 'topic', 'description'];
+
+  const columns = [
+    'clientName',
+    'clientGroup',
+    'orderNumber',
+    'responsibleTechnician',
+    'technician',
+    'requestDate',
+    'duration',
+    'topic',
+    'description'
+  ];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -36,7 +47,9 @@ function Dashboard() {
           ...r,
           _id: r._id || uuidv4(),
           clientName: r.clientName || '',
+          clientGroup: r.clientGroup || '',
           orderNumber: r.orderNumber || '',
+          responsibleTechnician: r.responsibleTechnician || '',
           technician: r.technician || '',
           requestDate: r.requestDate || '',
           duration: r.duration || '',
@@ -158,7 +171,9 @@ function Dashboard() {
           {paginated.map((r) => (
             <tr key={r._id} style={r.modified ? { backgroundColor: '#fff7cc' } : {}}>
               <td><input value={r.clientName} onChange={e => handleChange(r._id, 'clientName', e.target.value)} /></td>
+              <td><input value={r.clientGroup} onChange={e => handleChange(r._id, 'clientGroup', e.target.value)} /></td>
               <td><input value={r.orderNumber} onChange={e => handleChange(r._id, 'orderNumber', e.target.value)} /></td>
+              <td><input value={r.responsibleTechnician} onChange={e => handleChange(r._id, 'responsibleTechnician', e.target.value)} /></td>
               <td><input value={r.technician} onChange={e => handleChange(r._id, 'technician', e.target.value)} /></td>
               <td><input type="date" value={r.requestDate} onChange={e => handleChange(r._id, 'requestDate', e.target.value)} /></td>
               <td><input type="number" value={r.duration} onChange={e => handleChange(r._id, 'duration', e.target.value)} /></td>
