@@ -9,8 +9,10 @@ function AssistenzaForm() {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [timeError, setTimeError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isSpeechRecognitionAvailable, setIsSpeechRecognitionAvailable] = useState(true); // Aggiunto per la gestione compatibilità
 
-  // ✅ Protezione accesso: mostra la form solo se c'è il token
+
+   // ✅ Protezione accesso: mostra la form solo se c'è il token
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -24,26 +26,25 @@ function AssistenzaForm() {
   const endTime = watch('endTime');
 
   // ⏱ Calcolo durata
- useEffect(() => {
-  const startTime = watch('startTime');
-  const endTime = watch('endTime');
+  useEffect(() => {
+    const startTime = watch('startTime');
+    const endTime = watch('endTime');
 
-  if (startTime && endTime) {
-    const [startH, startM] = startTime.split(':').map(Number);
-    const [endH, endM] = endTime.split(':').map(Number);
-    const start = startH * 60 + startM;
-    const end = endH * 60 + endM;
+    if (startTime && endTime) {
+      const [startH, startM] = startTime.split(':').map(Number);
+      const [endH, endM] = endTime.split(':').map(Number);
+      const start = startH * 60 + startM;
+      const end = endH * 60 + endM;
 
-    if (end <= start) {
-      setTimeError("⚠️ L'orario di fine deve essere successivo all'orario di inizio.");
-      setValue('duration', '');
-    } else {
-      setTimeError('');
-      setValue('duration', end - start); // calcola i minuti
+      if (end <= start) {
+        setTimeError("⚠️ L'orario di fine deve essere successivo all'orario di inizio.");
+        setValue('duration', '');
+      } else {
+        setTimeError('');
+        setValue('duration', end - start); // calcola i minuti
+      }
     }
-  }
-}, [watch('startTime'), watch('endTime'), setValue]);
-
+  }, [watch('startTime'), watch('endTime'), setValue]);
 
   // ✅ Invio form
   const onSubmit = async (data) => {
@@ -96,7 +97,37 @@ function AssistenzaForm() {
       alert("Errore durante l'esportazione. Guarda la console.");
     }
   };
+ // Verifica compatibilità con il riconoscimento vocale
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setIsSpeechRecognitionAvailable(false);
+    } else {
+      setIsSpeechRecognitionAvailable(true);
+    }
+  }, []);
 
+  // Funzione per avviare il riconoscimento vocale
+  const startVoiceRecognition = () => {
+    if (!isSpeechRecognitionAvailable) {
+      alert("Il riconoscimento vocale non è supportato nel tuo browser.");
+      return;
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'it-IT';
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setValue('description', transcript); // Inserisce il testo riconosciuto nel campo descrizione
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Errore nel riconoscimento vocale:", event.error);
+      alert("Si è verificato un errore nel riconoscimento vocale.");
+    };
+  };
   const technicians = ['Alberto Castagna', 'Andrea Tedesco', 'Giuseppe Carenza', 'Giuseppe Fasano', 'Greg J Mathews', 'Gianluca Limanni', 'Gabriele Magni', 'Luca Mellino', 'Riccardo Debenedetti', 'Roberto Tettamanzi', 'Simone Filippini', 'Stefano Rivolta', 'Vittorio Vitacchione'];
   const requestSources = ['Assistance', 'Email', 'Chiamata', 'Messaggio', 'Verbale'];
   const requestedFromOptions = ['Cliente', 'Interno'];
@@ -223,15 +254,20 @@ function AssistenzaForm() {
         </select>
       </div>
 
-      <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-        <label>📝 Descrizione</label>
-        <textarea
-          {...register('description')}
-          className="form-input"
-          required
-          placeholder="Inserisci una descrizione dettagliata..."
-        />
-      </div>
+       <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+          <label>📝 Descrizione</label>
+          <textarea
+            {...register('description')}
+            className="form-input"
+            required
+            placeholder="Inserisci una descrizione dettagliata..."
+          />
+          {isSpeechRecognitionAvailable && (
+            <button type="button" onClick={startVoiceRecognition} style={{ marginTop: '10px' }}>
+              🎤 Usa Voce
+            </button>
+          )}
+        </div>
 
       <button type="submit" className="form-button" style={{ gridColumn: '1 / -1' }}>
         ✅ Invia

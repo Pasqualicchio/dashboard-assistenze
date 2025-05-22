@@ -6,10 +6,32 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Funzione di validazione email
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  // Gestione invio form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validazione email e password
+    if (!validateEmail(email)) {
+      setMessage('❌ Email non valida');
+      return;
+    }
+
+    if (password.length < 8) {
+      setMessage('❌ La password deve essere di almeno 8 caratteri');
+      return;
+    }
+
+    setMessage('');
+    setLoading(true);
 
     try {
       const res = await fetch(`${API_BASE}/api/register`, {
@@ -25,9 +47,11 @@ function RegisterPage() {
       }
 
       setMessage('✅ Registrazione avvenuta con successo!');
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/login'), 2000); // Naviga dopo 2 secondi
     } catch (err) {
       setMessage(`❌ ${err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,8 +75,8 @@ function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           style={{ padding: '10px', marginBottom: '10px', width: '100%' }}
         />
-        <button type="submit" style={{ padding: '10px', width: '100%' }}>
-          ➕ Registra
+        <button type="submit" style={{ padding: '10px', width: '100%' }} disabled={loading}>
+          {loading ? '🔄 Registrazione...' : '➕ Registra'}
         </button>
       </form>
       {message && <p style={{ marginTop: '10px' }}>{message}</p>}
